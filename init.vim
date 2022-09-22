@@ -6,23 +6,26 @@ set mouse=a
 syntax enable
 syntax on
 
-" Plugin manager https://github.com/junegunn/vim-plug
+" https://github.com/junegunn/vim-plug: Plugin manager
 call plug#begin()
 
-" https://github.com/EdenEast/nightfox.nvim
-" Plug 'EdenEast/nightfox.nvim', { 'tag': 'v1.0.0' }
-
-" https://github.com/mhartington/oceanic-next
+" https://github.com/mhartington/oceanic-next: Theme
 Plug 'mhartington/oceanic-next'
 
-" https://github.com/itchyny/lightline.vim:
+" https://github.com/itchyny/lightline.vim: Status line
 Plug 'itchyny/lightline.vim'
 
-" https://github.com/rmagatti/auto-session
-Plug 'rmagatti/auto-session'
+" https://github.com/mhinz/vim-startify: Start page
+Plug 'mhinz/vim-startify'
 
-" https://github.com/wfxr/minimap.vim
-Plug 'wfxr/minimap.vim'
+" https://vimawesome.com/plugin/vim-signify: uses the sign column to indicate added, modified and removed lines in a file that is managed by a version control system (VCS).
+Plug 'mhinz/vim-signify'
+
+" https://vimawesome.com/plugin/comfortable-motion-vim: Better experience when scroll in file.
+Plug 'yuttie/comfortable-motion.vim'
+
+" https://vimawesome.com/plugin/scrollbar-nvim: Scrollbar
+Plug 'Xuyuanp/scrollbar.nvim'
 
 call plug#end()
 
@@ -32,17 +35,10 @@ let g:netrw_browse_split = 4
 let g:netrw_altv = 1
 let g:netrw_winsize = 15	" 15% window size
 
-" augroup ProjectDrawer
-"  autocmd!
-"  autocmd VimEnter * :Vexplore
-" augroup END
-
 augroup cdpwd
     autocmd!
     autocmd VimEnter * cd $PWD " <------------------ PWD system variable
 augroup END
-
-" colorscheme nightfox
 
 if (has("termguicolors"))
  set termguicolors
@@ -53,9 +49,16 @@ let g:oceanic_next_terminal_bold = 1
 let g:oceanic_next_terminal_italic = 1
 colorscheme OceanicNext
 
-" Minimap
-" let g:minimap_auto_start = 1
-" let g:minimap_auto_start_win_enter = 1
-let g:minimap_highlight_range = 1
-let g:minimap_highlight_search = 1
-let g:minimap_git_colors = 1
+" Comfortable-motion plugin
+noremap <silent> <ScrollWheelDown> :call comfortable_motion#flick(40)<CR>
+noremap <silent> <ScrollWheelUp>   :call comfortable_motion#flick(-40)<CR>
+let g:comfortable_motion_friction = 320.0	" <---------------- Time of motion
+let g:comfortable_motion_air_drag = 2.0		" <---------------- Resistance to scroll
+
+" Scrollbar
+augroup ScrollbarInit
+  autocmd!
+  autocmd CursorMoved,VimResized,QuitPre * silent! lua require('scrollbar').show()
+  autocmd WinEnter,FocusGained           * silent! lua require('scrollbar').show()
+  autocmd WinLeave,BufLeave,BufWinLeave,FocusLost            * silent! lua require('scrollbar').clear()
+augroup end
