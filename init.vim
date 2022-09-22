@@ -24,9 +24,6 @@ Plug 'mhinz/vim-signify'
 " https://vimawesome.com/plugin/comfortable-motion-vim: Better experience when scroll in file.
 Plug 'yuttie/comfortable-motion.vim'
 
-" https://vimawesome.com/plugin/scrollbar-nvim: Scrollbar
-Plug 'Xuyuanp/scrollbar.nvim'
-
 call plug#end()
 
 let g:netrw_banner = 0		" Banner disabled (I)
@@ -55,10 +52,14 @@ noremap <silent> <ScrollWheelUp>   :call comfortable_motion#flick(-40)<CR>
 let g:comfortable_motion_friction = 320.0	" <---------------- Time of motion
 let g:comfortable_motion_air_drag = 2.0		" <---------------- Resistance to scroll
 
-" Scrollbar
-augroup ScrollbarInit
-  autocmd!
-  autocmd CursorMoved,VimResized,QuitPre * silent! lua require('scrollbar').show()
-  autocmd WinEnter,FocusGained           * silent! lua require('scrollbar').show()
-  autocmd WinLeave,BufLeave,BufWinLeave,FocusLost            * silent! lua require('scrollbar').clear()
-augroup end
+" Adjust font size with ctrl + mouse scroll
+let s:fontsize = 12
+function! AdjustFontSize(amount)
+  let s:fontsize = s:fontsize+a:amount
+  :execute "GuiFont! Consolas:h" . s:fontsize
+endfunction
+noremap <C-ScrollWheelUp> :call AdjustFontSize(1)<CR>
+noremap <C-ScrollWheelDown> :call AdjustFontSize(-1)<CR>
+inoremap <C-ScrollWheelUp> <Esc>:call AdjustFontSize(1)<CR>a
+inoremap <C-ScrollWheelDown> <Esc>:call AdjustFontSize(-1)<CR>a
+
