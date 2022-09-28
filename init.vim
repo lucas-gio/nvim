@@ -24,6 +24,10 @@ Plug 'mhinz/vim-signify'
 " https://vimawesome.com/plugin/comfortable-motion-vim: Better experience when scroll in file.
 Plug 'yuttie/comfortable-motion.vim'
 
+" https://vimawesome.com/plugin/telescope-nvim
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+
 call plug#end()
 
 let g:netrw_banner = 0		" Banner disabled (I)
